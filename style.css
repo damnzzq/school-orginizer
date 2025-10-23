@@ -16,6 +16,9 @@
     --dark: #1e293b;
     --gray: #64748b;
     --gray-light: #e2e8f0;
+    --border-radius: 12px;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
 body {
@@ -23,85 +26,165 @@ body {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     min-height: 100vh;
     color: var(--dark);
+    line-height: 1.6;
 }
 
 .app {
     max-width: 100%;
     min-height: 100vh;
     background: var(--light);
-    border-radius: 0;
 }
 
 /* Шапка */
 .header {
     background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     color: white;
-    padding: 20px;
-    border-radius: 0 0 20px 20px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    padding: 1.25rem 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow);
 }
 
-.header-content h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin-bottom: 8px;
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.date-info {
+.header-main {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: 14px;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.header-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-end;
+}
+
+.current-date {
+    font-size: 0.9rem;
+    opacity: 0.9;
 }
 
 .holiday-status {
-    background: rgba(255,255,255,0.2);
-    padding: 4px 12px;
-    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.375rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
     font-weight: 500;
+    backdrop-filter: blur(10px);
+}
+
+/* Основной контент */
+.main-content {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 120px);
 }
 
 /* Навигация */
 .tabs-nav {
     display: flex;
-    overflow-x: auto;
-    padding: 15px;
-    gap: 8px;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1.5rem 1rem;
     background: white;
-    border-bottom: 1px solid var(--gray-light);
+    border-right: 1px solid var(--gray-light);
+    position: sticky;
+    top: 120px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
 }
 
 .tab-btn {
-    flex-shrink: 0;
-    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
     border: none;
-    background: var(--gray-light);
-    border-radius: 12px;
+    background: white;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-weight: 500;
     transition: all 0.3s ease;
-    white-space: nowrap;
+    text-align: left;
+    width: 100%;
+    border: 2px solid transparent;
+}
+
+.tab-btn:hover {
+    background: var(--gray-light);
+    transform: translateX(4px);
 }
 
 .tab-btn.active {
     background: var(--primary);
     color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
 }
 
-/* Основной контент */
-.main-content {
-    padding: 20px;
+.tab-icon {
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.tab-text {
+    font-size: 0.95rem;
+}
+
+/* Кнопка меню для мобильных */
+.menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: fixed;
+    top: 1.5rem;
+    right: 1rem;
+    z-index: 1000;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background: white;
+    border-radius: 3px;
+    transition: all 0.3s ease;
+}
+
+/* Контент вкладок */
+.tab-content {
+    padding: 2rem;
+    overflow-y: auto;
+    max-height: calc(100vh - 120px);
 }
 
 .tab-pane {
     display: none;
+    animation: fadeIn 0.3s ease;
 }
 
 .tab-pane.active {
     display: block;
-    animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -114,12 +197,14 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .section-header h2 {
-    font-size: 20px;
-    font-weight: 600;
+    font-size: 1.75rem;
+    font-weight: 700;
     color: var(--dark);
 }
 
@@ -128,26 +213,35 @@ body {
     background: var(--primary);
     color: white;
     border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-weight: 500;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
+    white-space: nowrap;
 }
 
 .btn-primary:hover {
     background: var(--primary-dark);
-    transform: translateY(-1px);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
 }
 
 .btn-secondary {
     background: var(--gray-light);
     color: var(--dark);
     border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
     cursor: pointer;
     font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--gray);
+    color: white;
 }
 
 .full-width {
@@ -156,90 +250,104 @@ body {
 
 /* Выбор дня */
 .day-selector {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 20px;
-    overflow-x: auto;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 2rem;
 }
 
 .day-tab {
-    flex-shrink: 0;
-    padding: 12px 16px;
+    padding: 0.75rem 0.5rem;
     border: 1px solid var(--gray-light);
     background: white;
-    border-radius: 10px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     transition: all 0.3s ease;
+    font-size: 0.9rem;
+    text-align: center;
 }
 
 .day-tab.active {
     background: var(--primary);
     color: white;
     border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
 }
 
 /* Карточки */
 .cards-container {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    gap: 1rem;
 }
 
 .card {
     background: white;
-    padding: 16px;
-    border-radius: 12px;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
     border-left: 4px solid var(--primary);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s ease;
+    box-shadow: var(--shadow);
+    transition: all 0.3s ease;
 }
 
 .card:hover {
     transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 8px;
+    margin-bottom: 0.75rem;
+    gap: 1rem;
 }
 
 .card-title {
     font-weight: 600;
-    font-size: 16px;
+    font-size: 1.1rem;
     color: var(--dark);
+    flex: 1;
 }
 
 .card-priority {
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 12px;
+    padding: 0.25rem 0.75rem;
+    border-radius: 1rem;
+    font-size: 0.8rem;
     font-weight: 500;
+    flex-shrink: 0;
 }
 
 .priority-high { background: #fee2e2; color: var(--danger); }
 .priority-medium { background: #fef3c7; color: var(--warning); }
 .priority-low { background: #d1fae5; color: var(--success); }
 
-.card-date {
-    font-size: 14px;
+.card-desc {
     color: var(--gray);
-    margin-top: 4px;
+    margin-bottom: 0.5rem;
+    line-height: 1.5;
+}
+
+.card-date {
+    font-size: 0.9rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
 }
 
 .card-actions {
     display: flex;
-    gap: 8px;
-    margin-top: 12px;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
 }
 
 .btn-small {
-    padding: 6px 12px;
+    padding: 0.5rem 1rem;
     border: none;
-    border-radius: 6px;
-    font-size: 12px;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .btn-danger {
@@ -247,78 +355,87 @@ body {
     color: white;
 }
 
+.btn-danger:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
 /* Оценки */
 .grades-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 24px;
-    padding: 20px;
+    margin-bottom: 2rem;
+    padding: 2rem;
     background: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    gap: 2rem;
 }
 
 .average-grade {
     text-align: center;
+    flex-shrink: 0;
 }
 
 .avg-label {
-    font-size: 14px;
+    font-size: 0.9rem;
     color: var(--gray);
-    margin-bottom: 4px;
+    margin-bottom: 0.5rem;
 }
 
 .avg-value {
-    font-size: 32px;
+    font-size: 2.5rem;
     font-weight: 700;
     color: var(--primary);
 }
 
 .subjects-container {
     display: grid;
-    gap: 12px;
+    gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 .subject-card {
     background: white;
-    padding: 16px;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
 }
 
 .subject-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 1rem;
 }
 
 .subject-name {
     font-weight: 600;
-    font-size: 16px;
+    font-size: 1.1rem;
 }
 
 .subject-avg {
     font-weight: 700;
     color: var(--primary);
+    font-size: 1.25rem;
 }
 
 .grades-list {
     display: flex;
-    gap: 6px;
+    gap: 0.5rem;
     flex-wrap: wrap;
 }
 
 .grade-badge {
-    width: 32px;
-    height: 32px;
+    width: 2.5rem;
+    height: 2.5rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 0.5rem;
     font-weight: 600;
-    font-size: 14px;
+    font-size: 0.9rem;
 }
 
 .grade-5 { background: #d1fae5; color: var(--success); }
@@ -327,20 +444,63 @@ body {
 .grade-2 { background: #fecaca; color: var(--danger); }
 .grade-1 { background: #fca5a5; color: #dc2626; }
 
-/* Кнопки оценок */
+/* Быстрое добавление оценок */
+.quick-grades {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-top: 2rem;
+}
+
+.quick-grades h3 {
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+}
+
+.quick-grade-buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.quick-grade-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid var(--gray-light);
+    background: white;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.quick-grade-btn:hover {
+    border-color: var(--primary);
+    transform: scale(1.05);
+}
+
+.quick-grade-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Кнопки оценок в модалке */
 .grade-buttons {
     display: flex;
-    gap: 8px;
-    margin: 16px 0;
+    gap: 0.5rem;
+    margin: 1rem 0;
 }
 
 .grade-btn {
     flex: 1;
-    padding: 12px;
+    padding: 1rem;
     border: 2px solid var(--gray-light);
     background: white;
-    border-radius: 8px;
-    font-size: 18px;
+    border-radius: var(--border-radius);
+    font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -357,6 +517,34 @@ body {
     border-color: var(--primary);
 }
 
+/* Обратный отсчет */
+.countdown {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.countdown-item {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.countdown-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.countdown-label {
+    font-size: 0.9rem;
+    color: var(--gray);
+    margin-top: 0.5rem;
+}
+
 /* Модальные окна */
 .modal {
     display: none;
@@ -368,120 +556,202 @@ body {
     background: rgba(0,0,0,0.5);
     z-index: 1000;
     animation: fadeIn 0.3s ease;
+    padding: 1rem;
+    backdrop-filter: blur(5px);
 }
 
 .modal-content {
     background: white;
-    margin: 20px;
-    border-radius: 16px;
-    position: absolute;
+    border-radius: var(--border-radius);
+    position: relative;
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
     top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 400px;
+    transform: translateY(-50%);
     max-height: 90vh;
     overflow-y: auto;
+    box-shadow: var(--shadow-lg);
 }
 
 .modal-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    padding: 1.5rem;
     border-bottom: 1px solid var(--gray-light);
+    position: sticky;
+    top: 0;
+    background: white;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .modal-header h3 {
     font-weight: 600;
     color: var(--dark);
+    font-size: 1.25rem;
 }
 
 .close {
-    font-size: 24px;
+    font-size: 1.5rem;
     cursor: pointer;
     color: var(--gray);
+    transition: color 0.3s ease;
+}
+
+.close:hover {
+    color: var(--dark);
 }
 
 .modal-body {
-    padding: 20px;
+    padding: 1.5rem;
 }
 
 .input-field {
     width: 100%;
-    padding: 12px 16px;
+    padding: 0.75rem 1rem;
     border: 1px solid var(--gray-light);
-    border-radius: 8px;
-    margin-bottom: 16px;
-    font-size: 16px;
-    transition: border-color 0.3s ease;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: inherit;
 }
 
 .input-field:focus {
     outline: none;
     border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
 }
 
 .textarea {
-    min-height: 80px;
+    min-height: 100px;
     resize: vertical;
     font-family: inherit;
 }
 
-/* Обратный отсчет */
-.countdown {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    margin-top: 16px;
-}
+/* АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ */
 
-.countdown-item {
-    background: white;
-    padding: 16px;
-    border-radius: 12px;
-    text-align: center;
-    min-width: 60px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.countdown-number {
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--primary);
-}
-
-.countdown-label {
-    font-size: 12px;
-    color: var(--gray);
-    margin-top: 4px;
-}
-
-/* Адаптивность */
-@media (max-width: 480px) {
-    .tabs-nav {
-        padding: 12px;
-    }
-    
-    .tab-btn {
-        padding: 10px 12px;
-        font-size: 14px;
-    }
-    
+@media (max-width: 768px) {
     .main-content {
-        padding: 15px;
+        grid-template-columns: 1fr;
+    }
+    
+    .tabs-nav {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        z-index: 999;
+        transition: left 0.3s ease;
+        box-shadow: var(--shadow-lg);
+        padding-top: 4rem;
+    }
+    
+    .tabs-nav.active {
+        left: 0;
+    }
+    
+    .menu-toggle {
+        display: flex;
+    }
+    
+    .tab-content {
+        padding: 1rem;
+    }
+    
+    .header-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .header-info {
+        align-items: flex-start;
     }
     
     .section-header {
         flex-direction: column;
-        gap: 12px;
         align-items: flex-start;
     }
     
     .grades-header {
         flex-direction: column;
-        gap: 16px;
         text-align: center;
+        gap: 1.5rem;
+    }
+    
+    .day-selector {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .countdown {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.5rem;
+    }
+    
+    .countdown-item {
+        padding: 1rem;
+    }
+    
+    .countdown-number {
+        font-size: 1.5rem;
+    }
+    
+    .modal-content {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        padding: 1rem;
+    }
+    
+    .header h1 {
+        font-size: 1.25rem;
+    }
+    
+    .tab-content {
+        padding: 0.75rem;
+    }
+    
+    .section-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .day-selector {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .card {
+        padding: 1rem;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .card-actions {
+        flex-direction: column;
+    }
+    
+    .btn-small {
+        width: 100%;
+    }
+    
+    .grade-buttons,
+    .quick-grade-buttons {
+        flex-direction: column;
+    }
+    
+    .countdown {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -495,9 +765,26 @@ body {
 }
 
 .mt-4 {
-    margin-top: 16px;
+    margin-top: 1rem;
 }
 
 .mb-4 {
-    margin-bottom: 16px;
+    margin-bottom: 1rem;
+}
+
+/* Скрытие scrollbar для WebKit браузеров */
+.tabs-nav::-webkit-scrollbar,
+.tab-content::-webkit-scrollbar {
+    width: 4px;
+}
+
+.tabs-nav::-webkit-scrollbar-track,
+.tab-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.tabs-nav::-webkit-scrollbar-thumb,
+.tab-content::-webkit-scrollbar-thumb {
+    background: var(--gray-light);
+    border-radius: 2px;
 }
