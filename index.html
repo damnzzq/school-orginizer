@@ -13,25 +13,52 @@
         <!-- Шапка -->
         <header class="header">
             <div class="header-content">
-                <h1>🎓 Школьный органайзер</h1>
-                <div class="date-info">
-                    <div id="currentDate" class="current-date"></div>
-                    <div id="holidayStatus" class="holiday-status"></div>
+                <div class="header-main">
+                    <h1>🎓 Школьный органайзер</h1>
+                    <div class="header-info">
+                        <div id="currentDate" class="current-date"></div>
+                        <div id="holidayStatus" class="holiday-status"></div>
+                    </div>
                 </div>
             </div>
         </header>
 
         <!-- Основной контент -->
         <main class="main-content">
-            <!-- Навигация -->
-            <nav class="tabs-nav">
-                <button class="tab-btn active" data-tab="schedule">📅 Расписание</button>
-                <button class="tab-btn" data-tab="homework">📝 Задания</button>
-                <button class="tab-btn" data-tab="deadlines">⏰ Дедлайны</button>
-                <button class="tab-btn" data-tab="grades">📊 Оценки</button>
-                <button class="tab-btn" data-tab="birthdays">🎂 Дни рождения</button>
-                <button class="tab-btn" data-tab="holidays">🎉 Каникулы</button>
+            <!-- Навигация - горизонтальная на ПК, вертикальная на телефоне -->
+            <nav class="tabs-nav" id="tabsNav">
+                <button class="tab-btn active" data-tab="schedule">
+                    <span class="tab-icon">📅</span>
+                    <span class="tab-text">Расписание</span>
+                </button>
+                <button class="tab-btn" data-tab="homework">
+                    <span class="tab-icon">📝</span>
+                    <span class="tab-text">Задания</span>
+                </button>
+                <button class="tab-btn" data-tab="deadlines">
+                    <span class="tab-icon">⏰</span>
+                    <span class="tab-text">Дедлайны</span>
+                </button>
+                <button class="tab-btn" data-tab="grades">
+                    <span class="tab-icon">📊</span>
+                    <span class="tab-text">Оценки</span>
+                </button>
+                <button class="tab-btn" data-tab="birthdays">
+                    <span class="tab-icon">🎂</span>
+                    <span class="tab-text">Дни рождения</span>
+                </button>
+                <button class="tab-btn" data-tab="holidays">
+                    <span class="tab-icon">🎉</span>
+                    <span class="tab-text">Каникулы</span>
+                </button>
             </nav>
+
+            <!-- Кнопка меню для мобильных -->
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
             <!-- Контент вкладок -->
             <div class="tab-content">
@@ -43,12 +70,12 @@
                     </div>
                     
                     <div class="day-selector">
-                        <button class="day-tab active" data-day="monday">Понедельник</button>
-                        <button class="day-tab" data-day="tuesday">Вторник</button>
-                        <button class="day-tab" data-day="wednesday">Среда</button>
-                        <button class="day-tab" data-day="thursday">Четверг</button>
-                        <button class="day-tab" data-day="friday">Пятница</button>
-                        <button class="day-tab" data-day="saturday">Суббота</button>
+                        <button class="day-tab active" data-day="monday">Пн</button>
+                        <button class="day-tab" data-day="tuesday">Вт</button>
+                        <button class="day-tab" data-day="wednesday">Ср</button>
+                        <button class="day-tab" data-day="thursday">Чт</button>
+                        <button class="day-tab" data-day="friday">Пт</button>
+                        <button class="day-tab" data-day="saturday">Сб</button>
                     </div>
                     
                     <div id="schedule-content" class="schedule-content">
@@ -85,7 +112,7 @@
                             <div class="avg-label">Средний балл</div>
                             <div class="avg-value" id="averageGrade">0.0</div>
                         </div>
-                        <button class="btn-secondary" onclick="showAddGradeModal()">+ Добавить оценку</button>
+                        <button class="btn-primary" onclick="showAddGradeModal()">+ Добавить оценку</button>
                     </div>
                     
                     <div class="subjects-grades">
@@ -93,6 +120,20 @@
                         <div id="subjects-list" class="subjects-container">
                             <!-- Список предметов с оценками -->
                         </div>
+                    </div>
+
+                    <!-- Быстрое добавление оценок -->
+                    <div class="quick-grades">
+                        <h3>Быстрая оценка</h3>
+                        <div class="quick-grade-buttons">
+                            <button class="quick-grade-btn" data-grade="5">5</button>
+                            <button class="quick-grade-btn" data-grade="4">4</button>
+                            <button class="quick-grade-btn" data-grade="3">3</button>
+                            <button class="quick-grade-btn" data-grade="2">2</button>
+                            <button class="quick-grade-btn" data-grade="1">1</button>
+                        </div>
+                        <input type="text" id="quickSubject" placeholder="Предмет" class="input-field">
+                        <button onclick="addQuickGrade()" class="btn-secondary full-width">Добавить</button>
                     </div>
                 </div>
 
@@ -119,16 +160,16 @@
                     
                     <div class="holiday-countdown">
                         <h3>До ближайших каникул:</h3>
-                        <div id="countdown-timer" class="countdown"></div>
+                        <div id="countdown-timer" class="countdown">
+                            <!-- Таймер обратного отсчета -->
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- МОДАЛЬНЫЕ ОКНА -->
-
-    <!-- Добавление урока -->
+    <!-- МОДАЛЬНЫЕ ОКНА (адаптивные) -->
     <div id="lessonModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
