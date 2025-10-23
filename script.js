@@ -96,7 +96,160 @@ function addDemoData() {
     
     saveData();
 }
+function initApp() {
+    loadData();
+    initTabs();
+    initDayTabs();
+    initGradeButtons();
+    initMobileMenu(); // Новая функция для мобильного меню
+    updateUI();
+    startCountdownTimer();
+    
+    setInterval(updateUI, 60000);
+}
 
+// Новая функция для мобильного меню
+function initMobileMenu() {
+    const menuToggle = document.getElementById('menuToggle');
+    const tabsNav = document.getElementById('tabsNav');
+    
+    if (menuToggle && tabsNav) {
+        menuToggle.addEventListener('click', function() {
+            tabsNav.classList.toggle('active');
+            // Анимация бургер-меню
+            this.classList.toggle('active');
+        });
+        
+        // Закрытие меню при клике на ссылку
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                if (window.innerWidth <= 768) {
+                    tabsNav.classList.remove('active');
+                    menuToggle.classList.remove('active');
+                }
+            });
+        });
+        
+        // Закрытие меню при клике вне его
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768 && 
+                !tabsNav.contains(event.target) && 
+                !menuToggle.contains(event.target) &&
+                tabsNav.classList.contains('active')) {
+                tabsNav.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        });
+    }
+}
+
+// Функция для быстрого добавления оценок
+function addQuickGrade() {
+    const subject = document.getElementById('quickSubject').value;
+    const activeBtn = document.querySelector('.quick-grade-btn.active');
+    
+    if (subject && activeBtn) {
+        const grade = parseInt(activeBtn.dataset.grade);
+        const date = new Date().toISOString().split('T')[0];
+        
+        appData.grades.push({
+            id: Date.now(),
+            subject,
+            grade,
+            date
+        });
+        
+        saveData();
+        document.getElementById('quickSubject').value = '';
+        document.querySelectorAll('.quick-grade-btn').forEach(btn => btn.classList.remove('active'));
+        
+        // Показать уведомление об успехе
+        showNotification(`Оценка ${grade} по предмету "${subject}" добавлена!`);
+    }
+}
+
+// Функция для показа уведомлений
+function showNotification(message, type = 'success') {
+    // Создаем элемент уведомления
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        z-index: 10000;
+        animation: slideIn 0.3s ease;
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Удаляем уведомление через 3 секунды
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.3s ease';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+// Добавляем стили для анимации уведомлений
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes slideOut {
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(100%); opacity: 0; }
+    }
+    
+    .menu-toggle.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .menu-toggle.active span:nth-child(2) {
+        opacity: 0;
+    }
+    
+    .menu-toggle.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+    }
+`;
+document.head.appendChild(style);
+
+// Инициализация быстрых кнопок оценок
+function initQuickGradeButtons() {
+    document.querySelectorAll('.quick-grade-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.quick-grade-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+}
+
+// Обнови вызов в initApp()
+function initApp() {
+    loadData();
+    initTabs();
+    initDayTabs();
+    initGradeButtons();
+    initQuickGradeButtons(); // Добавляем эту строку
+    initMobileMenu();
+    updateUI();
+    startCountdownTimer();
+    
+    setInterval(updateUI, 60000);
+}
 // Инициализация вкладок
 function initTabs() {
     document.querySelectorAll('.tab-btn').forEach(btn => {
