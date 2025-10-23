@@ -4,7 +4,7 @@ import os
 import json
 
 # Токен бота от @BotFather
-BOT_TOKEN = "8470248365:AAF1yQToIZghLwHGW2bmtuP_AEFg6yxgE0U"
+BOT_TOKEN = ""
 
 # URL твоего Mini App (после загрузки на хостинг)
 MINI_APP_URL = "https://your-username.github.io/school-organizer"  # Пример для GitHub Pages
@@ -65,4 +65,5 @@ def main():
     application.run_polling()
 
 if __name__ == "__main__":
+
     main()
